@@ -1,0 +1,7 @@
+curl -X POST "http://localhost:8011/api/v1/upload" \
+  -H "accept: application/json" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@/Users/kravtandr/Downloads/robot.png"
+
+  
+
