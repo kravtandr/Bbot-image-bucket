@@ -6,6 +6,6 @@ class Record(Base):
     __tablename__ = "records"
 
     id = Column(Integer, primary_key=True, index=True)
-    text = Column(String)
+    command = Column(String)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
-    is_active = Column(Boolean, default=True)
+    find_goal = Column(Boolean, default=True)

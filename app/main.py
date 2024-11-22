@@ -32,6 +32,11 @@ app.add_middleware(
 # Подключение роутера
 app.include_router(router, prefix="/api/v1")
 
+# Удалите все таблицы и создайте заново
+models.Base.metadata.drop_all(bind=database.engine)
+models.Base.metadata.create_all(bind=database.engine)
+
+
 @app.get("/health")
 async def health_check():
     """
@@ -40,14 +45,12 @@ async def health_check():
     return {"status": "healthy"}
 
 
-# Создаем таблицы
-models.Base.metadata.create_all(bind=database.engine)
 
 @app.post("/records/", response_model=schemas.Record)
 def create_record(record: schemas.RecordCreate, db: Session = Depends(database.get_db)):
     db_record = models.Record(
-        text=record.text,
-        is_active=record.is_active
+        command=record.command,
+        find_goal=record.find_goal
     )
     db.add(db_record)
     db.commit()
