@@ -3,6 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from .api.routes import router
 from .config import settings
 import logging
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from typing import List
+from . import models, schemas, database
 
 # Настройка логирования
 logging.basicConfig(
@@ -34,3 +38,23 @@ async def health_check():
     Эндпоинт для проверки работоспособности сервиса
     """
     return {"status": "healthy"}
+
+
+# Создаем таблицы
+models.Base.metadata.create_all(bind=database.engine)
+
+@app.post("/records/", response_model=schemas.Record)
+def create_record(record: schemas.RecordCreate, db: Session = Depends(database.get_db)):
+    db_record = models.Record(
+        text=record.text,
+        is_active=record.is_active
+    )
+    db.add(db_record)
+    db.commit()
+    db.refresh(db_record)
+    return db_record
+
+@app.get("/records/", response_model=List[schemas.Record])
+def read_records(skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db)):
+    records = db.query(models.Record).offset(skip).limit(limit).all()
+    return records

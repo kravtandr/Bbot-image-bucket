@@ -5,3 +5,5 @@ minio==7.1.15
 python-dotenv==1.0.0
 pydantic==2.3.0
 pydantic-settings==2.0.3
+sqlalchemy
+psycopg2-binary
