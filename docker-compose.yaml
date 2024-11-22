@@ -9,7 +9,7 @@ services:
       - .env
     depends_on:
       - minio
-      - postgres
+      - postgres-bbot
     networks:
       - app-network
     healthcheck:
@@ -40,14 +40,15 @@ services:
       timeout: 10s
       retries: 3
   
-  postgres:
+  postgres-bbot:
     image: postgres:13
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: testdb
+    command: -p 5400 
     ports:
-      - "5555:5555"  # Изменено на стандартный порт PostgreSQL
+      - "5400:5400"  # Изменено на стандартный порт PostgreSQL
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
