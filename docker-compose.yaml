@@ -47,7 +47,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: testdb
     ports:
-      - "5432:5432"  # Изменено на стандартный порт PostgreSQL
+      - "5555:5555"  # Изменено на стандартный порт PostgreSQL
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
