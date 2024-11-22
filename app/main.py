@@ -40,7 +40,6 @@ def read_root():
 
 @app.post("/command/", response_model=schemas.Record)
 def create_record(record: schemas.RecordCreate, db: Session = Depends(database.get_db)):
-    print("HERE")
     db_record = models.Record(
         command=record.command.model_dump(),  # Преобразуем Pydantic модель в dict
     )
