@@ -1,10 +1,15 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+
+class CommandData(BaseModel):
+    linear: float
+    angular: float
+    experts: List[float]
+    task_completed: bool
 
 class RecordBase(BaseModel):
-    command: str
-    find_goal: bool
+    command: CommandData
 
 class RecordCreate(RecordBase):
     pass
@@ -14,4 +19,4 @@ class Record(RecordBase):
     timestamp: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

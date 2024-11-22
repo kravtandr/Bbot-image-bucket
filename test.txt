@@ -19,3 +19,5 @@ curl -X POST "http://localhost:8011/records/" -H "Content-Type: application/json
 
 # Получение записей
 curl "http://localhost:8011/records/?skip=0&limit=10"
+
+http://193.109.69.78:8999/commands/?skip=0&limit=100
