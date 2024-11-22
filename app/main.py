@@ -52,3 +52,18 @@ def create_record(record: schemas.RecordCreate, db: Session = Depends(database.g
 def read_records(skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db)):
     records = db.query(models.Record).offset(skip).limit(limit).all()
     return records
+
+
+@app.delete("/records/all", status_code=200)
+def delete_all_records(db: Session = Depends(database.get_db)):
+    try:
+        # Удаляем все записи из таблицы records
+        num_deleted = db.query(models.Record).delete()
+        db.commit()
+        return {
+            "message": f"Successfully deleted {num_deleted} records",
+            "records_deleted": num_deleted
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error deleting records: {str(e)}")
