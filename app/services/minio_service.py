@@ -105,3 +105,15 @@ class MinioService:
             raise
         finally:
             file.file.close()
+
+    async def get_file(self, filename: str) -> bytes:
+        try:
+            # Получаем объект из MinIO
+            data = self.client.get_object(
+                bucket_name=settings.MINIO_BUCKET_NAME,
+                object_name=filename
+            )
+            # Читаем все данные
+            return data.read()
+        except Exception as e:
+            raise ValueError(f"Error getting file from MinIO: {str(e)}")

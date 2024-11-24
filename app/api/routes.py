@@ -1,4 +1,5 @@
 from fastapi import APIRouter, UploadFile, HTTPException
+from fastapi.responses import StreamingResponse
 from ..services.minio_service import MinioService
 from ..config import settings
 import io
@@ -37,7 +38,22 @@ async def upload_file(file: UploadFile):
         
         # Загружаем файл
         file_url = await minio_service.upload_file(file)
-        return {"url": file_url}
+        
+        
+        # # Получаем файл из MinIO
+        # file_data = await minio_service.get_file(file_url)  # Предполагается, что такой метод существует
+        
+        return StreamingResponse(
+            io.BytesIO(contents),
+            media_type="image/png",  # Укажите правильный media type
+            headers={
+                "Content-Disposition": "inline",
+                "Accept-Ranges": "bytes",
+                "Cache-Control": "public, max-age=3600",
+            }
+        )
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Image not found")
     
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
