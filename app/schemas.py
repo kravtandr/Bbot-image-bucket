@@ -6,7 +6,9 @@ class CommandData(BaseModel):
     linear: float
     angular: float
     experts: List[float]
+    see_goal: bool
     task_completed: bool
+    summary: str
 
 class RecordBase(BaseModel):
     command: CommandData

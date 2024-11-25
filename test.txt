@@ -8,6 +8,12 @@ curl -X POST "http://193.109.69.78:8011/api/v1/upload" \
   -H "accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@/Users/kravtandr/Downloads/robot.png"
+
+
+curl -X POST "https://bi-tu-bi/test/api/v1/upload" \
+  -H "accept: application/json" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@/Users/kravtandr/Downloads/robot.png"
   
 
 http://193.109.69.78:8999/images/3e4915e26fed84a46dba76d8f6d47286.png
